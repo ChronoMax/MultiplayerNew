@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 8731905837429408158}
   - component: {fileID: 8731905837429408157}
   - component: {fileID: -9032577879393054801}
+  - component: {fileID: 6204750740672390154}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -160,4 +161,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e6187f468bd67d479c85b32b14a7d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  objectToSpawn: {fileID: 2115601773493835557, guid: befc0f284a1dea2469136fccd5c0aa9f, type: 3}
+--- !u!114 &6204750740672390154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8731905837429408159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2868252ab5c4d1da357e8f11f1b524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  InLocalSpace: 0
+  Interpolate: 1
