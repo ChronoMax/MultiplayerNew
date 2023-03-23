@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToSpawn: {fileID: 2115601773493835557, guid: befc0f284a1dea2469136fccd5c0aa9f, type: 3}
+  spawnedObjectTransform: {fileID: 2115601773493835557, guid: befc0f284a1dea2469136fccd5c0aa9f, type: 3}
 --- !u!114 &6204750740672390154
 MonoBehaviour:
   m_ObjectHideFlags: 0
