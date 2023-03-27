@@ -529,7 +529,7 @@ GameObject:
   - component: {fileID: 504646427}
   - component: {fileID: 504646426}
   m_Layer: 5
-  m_Name: InputField (TMP) (1)
+  m_Name: Password_InputField (TMP) (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -635,7 +635,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1643992691}
+        m_TargetAssemblyTypeName: Login, Assembly-CSharp
+        m_MethodName: LoginButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -705,7 +717,7 @@ GameObject:
   - component: {fileID: 568965687}
   - component: {fileID: 568965686}
   m_Layer: 5
-  m_Name: InputField (TMP)
+  m_Name: Username_InputField (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -811,7 +823,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1643992691}
+        m_TargetAssemblyTypeName: Login, Assembly-CSharp
+        m_MethodName: LoginButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1693,6 +1717,7 @@ GameObject:
   - component: {fileID: 1643992689}
   - component: {fileID: 1643992688}
   - component: {fileID: 1643992687}
+  - component: {fileID: 1643992691}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1785,6 +1810,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1643992691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643992686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aa6bba4d6d304444b2245cf60b42b05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  username: {fileID: 568965686}
+  password: {fileID: 504646426}
+  LoginButton: {fileID: 2029879185}
 --- !u!1 &2029879183
 GameObject:
   m_ObjectHideFlags: 0
@@ -1798,7 +1838,7 @@ GameObject:
   - component: {fileID: 2029879186}
   - component: {fileID: 2029879185}
   m_Layer: 5
-  m_Name: RegisterButton
+  m_Name: LoginButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1864,11 +1904,23 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2029879186}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1643992691}
+        m_TargetAssemblyTypeName: Login, Assembly-CSharp
+        m_MethodName: CallLogin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2029879186
 MonoBehaviour:
   m_ObjectHideFlags: 0
