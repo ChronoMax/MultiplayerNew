@@ -6,8 +6,14 @@ using TMPro;
 using UnityEngine.UI;
 public class RegisterForm : MonoBehaviour
 {
+    [SerializeField]
     public TMP_InputField username, password;
+
+    [SerializeField]
     public Button registerButton;
+
+    [SerializeField]
+    string databaseURL;
 
     public void CallRegister()
     {
@@ -19,7 +25,7 @@ public class RegisterForm : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("username", username.text);
         form.AddField("password", password.text);
-        WWW www = new WWW("http://localhost/sqlconnect/register.php", form);
+        WWW www = new WWW(databaseURL, form);
         yield return www;
 
         if (www.text == "")
@@ -37,5 +43,10 @@ public class RegisterForm : MonoBehaviour
     public void RegisterButtonClicked()
     {
         registerButton.interactable = (username.text.Length >= 8 && password.text.Length >= 8);
+    }
+
+    public void BackButtonClicked()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
