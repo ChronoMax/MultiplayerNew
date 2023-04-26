@@ -8,73 +8,69 @@ public class MainMenuHandler : MonoBehaviour
 {
     [SerializeField]
     TMP_Text playerText;
-
     [SerializeField]
     GameObject login_registerCanvas;
-
     [SerializeField]
     Button loginButton, registerButton;
-
     [SerializeField]
     TMP_InputField username, password;
-
     [SerializeField]
     GameObject playCanvas;
 
-    [SerializeField]
-    Login loginscript;
+    DatabaseHandler databaseHandler;
+    public bool requestCompleted = false;
 
-    public bool loginCompleted = false;
-
+    /*
+     * At start, find the database-script.
+     * set the play button on inactive.
+     * set the text.
+     */
     public void Start()
     {
+        databaseHandler = GameObject.Find("Canvas").GetComponent<DatabaseHandler>();
         playCanvas.SetActive(false);
         playerText.text = "Player: " + DBManager.username;
     }
 
+    //Play button behavior.
     public void PlayButtonPressed()
     {
         SceneManager.LoadScene("");
     }
 
+    //loginbutton behavior with tag 'login'
     public void LoginButtonPressed()
     {
-        StartCoroutine(login_request("login"));
+        StartCoroutine(database_request("login"));
     }
 
+    //registerbutton behavior with tag 'register'
     public void RegisterButtonPressed()
     {
-        StartCoroutine(register_request("register"));
+        StartCoroutine(database_request("register"));
     }
 
-    IEnumerator login_request(string login_or_register)
+    /* 
+     * using www for webrequest.
+     * sends the name and password for login or registering.
+     * returns the player name when logged-in.
+     * sets the play button to active.
+     * turns-of the login-registration form.
+     */
+    IEnumerator database_request(string login_or_register)
     {
-        while (!loginCompleted)
+        while (!requestCompleted)
         {
-            loginscript.CallDatabase(username.text, password.text, login_or_register);
-            playCanvas.SetActive(true);
-            login_registerCanvas.SetActive(false);
+            databaseHandler.CallDatabase(username.text, password.text, login_or_register);
 
             yield return new WaitForSeconds(1);
 
-            if (loginCompleted)
+            if (requestCompleted && login_or_register != "register")
             {
                 playerText.text = "Player: " + DBManager.username;
+                playCanvas.SetActive(true);
+                login_registerCanvas.SetActive(false);
             }
         }
-    }
-
-    IEnumerator register_request(string login_or_register)
-    {
-        loginscript.CallDatabase(username.text, password.text, login_or_register);
-        playCanvas.SetActive(true);
-        login_registerCanvas.SetActive(false);
-        yield return null;
-    }
-
-    void handleInteractable()
-    {
-        loginButton.interactable = false;
-        registerButton.interactable = false;
     }
 }

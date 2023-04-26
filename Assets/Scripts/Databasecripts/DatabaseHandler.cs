@@ -2,18 +2,22 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Login : MonoBehaviour
+public class DatabaseHandler : MonoBehaviour
 {
     [SerializeField]
     string login_databaseURL, register_databaseURL;
-
     public MainMenuHandler MainMenuHandlerscript;
 
+    //Links to the other scripts.
     public void CallDatabase(string username, string password, string login_or_register)
     {
         StartCoroutine(LoginPlayer(username, password, login_or_register));
     }
 
+    /*
+     * When the tag 'login' or 'register' is given the methode will create
+     * a webrequest and sends the username and password to get used in the php script.
+     */
     IEnumerator LoginPlayer(string username, string password, string login_or_register)
     {
         string database = "";
@@ -41,7 +45,7 @@ public class Login : MonoBehaviour
             {
                 DBManager.username = username;
                 DBManager.score = int.Parse(www.text.Split('\t')[1]);
-                MainMenuHandlerscript.loginCompleted = true;
+                MainMenuHandlerscript.requestCompleted = true;
             }
             else
             {
@@ -53,6 +57,7 @@ public class Login : MonoBehaviour
             if (www.text == "")
             {
                 Debug.Log("User created succesfully.");
+                MainMenuHandlerscript.requestCompleted = true;
             }
             else
             {

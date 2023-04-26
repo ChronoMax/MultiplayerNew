@@ -2048,10 +2048,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerText: {fileID: 906562169}
   login_registerCanvas: {fileID: 1564092368}
+  loginButton: {fileID: 1794160860}
+  registerButton: {fileID: 2029879185}
   username: {fileID: 1810855916}
   password: {fileID: 1471021336}
   playCanvas: {fileID: 1266428187}
-  loginscript: {fileID: 1643992692}
+  databaseHandler: {fileID: 0}
   loginCompleted: 0
 --- !u!114 &1643992692
 MonoBehaviour:
