@@ -71,6 +71,11 @@ public class MainMenuHandler : MonoBehaviour
                 playCanvas.SetActive(true);
                 login_registerCanvas.SetActive(false);
             }
+            else
+            {
+                requestCompleted = false;
+                break;
+            }
         }
     }
 }
