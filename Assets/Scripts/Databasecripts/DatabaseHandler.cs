@@ -11,14 +11,14 @@ public class DatabaseHandler : MonoBehaviour
     //Links to the other scripts.
     public void CallDatabase(string username, string password, string login_or_register)
     {
-        StartCoroutine(LoginPlayer(username, password, login_or_register));
+        StartCoroutine(LoginRegisterPlayer(username, password, login_or_register));
     }
 
     /*
      * When the tag 'login' or 'register' is given the methode will create
      * a webrequest and sends the username and password to get used in the php script.
      */
-    IEnumerator LoginPlayer(string username, string password, string login_or_register)
+    IEnumerator LoginRegisterPlayer(string username, string password, string login_or_register)
     {
         string database = "";
         switch (login_or_register)
