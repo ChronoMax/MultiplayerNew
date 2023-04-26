@@ -1957,10 +1957,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aa6bba4d6d304444b2245cf60b42b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  username: {fileID: 568965686}
-  password: {fileID: 504646426}
-  LoginButton: {fileID: 2029879185}
-  databaseURL: http://localhost/sqlconnect/login.php
+  login_databaseURL: http://localhost/sqlconnect/login.php
+  register_databaseURL: http://localhost/sqlconnect/register.php
+  MainMenuHandlerscript: {fileID: 0}
 --- !u!1 &1654174557
 GameObject:
   m_ObjectHideFlags: 0
