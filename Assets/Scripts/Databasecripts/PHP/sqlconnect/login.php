@@ -9,7 +9,7 @@
     $namecheck = mysqli_query($conn, $namequerycheck) or die ("2: Name check failed.");
 
     if(mysqli_num_rows($namecheck) != 1){
-        echo "5: username does not excist";
+        echo "5: username does not exist";
         exit();
     }
 

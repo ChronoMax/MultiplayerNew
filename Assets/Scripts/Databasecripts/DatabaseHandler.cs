@@ -1,11 +1,14 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class DatabaseHandler : MonoBehaviour
 {
     [SerializeField]
     string login_databaseURL, register_databaseURL;
+    [SerializeField]
+    TMP_Text debugText;
     public MainMenuHandler MainMenuHandlerscript;
 
     //Links to the other scripts.
@@ -49,20 +52,22 @@ public class DatabaseHandler : MonoBehaviour
             }
             else
             {
-                Debug.Log("Login failed. Error: " + www.text);
+                debugText.text = "Login failed. Error: " + www.text;
+                Debug.Log(debugText.text);
             }
         }
         else if (database == register_databaseURL)
         {
             if (www.text == "")
             {
-                Debug.Log("User created succesfully.");
+                debugText.text = "User created succesfully. You can now login with the credentials!";
+                Debug.Log(debugText.text);
                 MainMenuHandlerscript.requestCompleted = true;
             }
             else
             {
-                Debug.Log(www.text);
-                Debug.Log("User cannot be created. Error: " + www.text);
+                debugText.text = "User cannot be created. Error: " + www.text;
+                Debug.Log(debugText.text);
             }
         }
     }
