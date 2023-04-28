@@ -5,6 +5,8 @@ using TMPro;
 
 public class PlayerNetwork : NetworkBehaviour
 {
+    public GameObject playerComponents;
+
     [SerializeField] Transform objectToSpawn;
     [SerializeField] Transform spawnedObjectTransform;
 
@@ -49,6 +51,8 @@ public class PlayerNetwork : NetworkBehaviour
     private void Update()
     {
         if (!IsOwner) return;
+
+        playerComponents.SetActive(true);
 
         if (Input.GetKeyDown(KeyCode.T))
         {
