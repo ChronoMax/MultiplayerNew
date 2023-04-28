@@ -9,7 +9,13 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] Transform objectToSpawn;
     [SerializeField] Transform spawnedObjectTransform;
 
-        public struct myCustomData : INetworkSerializable
+    public float moveSpeed = 5.0f;
+    public float lookSpeed = 2.0f;
+
+    private float verticalLookRotation = 0.0f;
+    public Transform cameraTransform;
+
+    public struct myCustomData : INetworkSerializable
         {
         public int _int;
         public bool _bool;
@@ -55,27 +61,22 @@ public class PlayerNetwork : NetworkBehaviour
             */
         }
 
-        Vector3 moveDir = new Vector3(0, 0, 0);
+        // Get user input
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            moveDir.z = +1f;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            moveDir.z = -1f;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            moveDir.x = -1f;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            moveDir.x = +1f;
-        }
+        // Move the player
+        Vector3 movement = transform.forward * vertical + transform.right * horizontal;
+        movement.y = 0.0f;
+        transform.position += movement.normalized * moveSpeed * Time.deltaTime;
 
-        float moveSpeed = 3f;
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
+        // Rotate the camera
+        verticalLookRotation += mouseY * lookSpeed;
+        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90.0f, 90.0f);
+        cameraTransform.localEulerAngles = new Vector3(-verticalLookRotation, 0.0f, 0.0f);
+        transform.localEulerAngles = new Vector3(0.0f, transform.localEulerAngles.y + mouseX * lookSpeed, 0.0f);
 
         if (Input.GetKeyDown(KeyCode.Y))
         {
