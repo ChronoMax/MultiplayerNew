@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using Unity.Collections;
+using TMPro;
 
 public class PlayerNetwork : NetworkBehaviour
 {
@@ -14,6 +13,9 @@ public class PlayerNetwork : NetworkBehaviour
 
     private float verticalLookRotation = 0.0f;
     public Transform cameraTransform;
+
+    [SerializeField] string playerName;
+    [SerializeField] TextMeshProUGUI playerNameText;
 
     public struct myCustomData : INetworkSerializable
         {
@@ -36,6 +38,8 @@ public class PlayerNetwork : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        playerNameText.text = playerName;
+
         randomNumber.OnValueChanged += (myCustomData previousValue, myCustomData newValue) =>
         {
             Debug.Log(OwnerClientId + ": " + newValue._int + newValue._bool + newValue.message);
