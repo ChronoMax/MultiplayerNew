@@ -666,6 +666,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &6049220769162919576
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2340421995109205035}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2340421995109205035
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049220769162919576}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.372, y: 1.598, z: 0.825}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8731905837429408158}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8731905835661048986
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,7 +812,7 @@ GameObject:
   - component: {fileID: 3049648475090686509}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -802,6 +833,7 @@ Transform:
   - {fileID: 8731905835661048985}
   - {fileID: 8990454344960625537}
   - {fileID: 8759014729935813786}
+  - {fileID: 2340421995109205035}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -834,15 +866,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerComponents: {fileID: 86665254397631672}
-  objectToSpawn: {fileID: 2115601773493835557, guid: befc0f284a1dea2469136fccd5c0aa9f, type: 3}
-  spawnedObjectTransform: {fileID: 2115601773493835557, guid: befc0f284a1dea2469136fccd5c0aa9f, type: 3}
+  health:
+    m_InternalValue: 0
   moveSpeed: 5
   lookSpeed: 2
   cameraTransform: {fileID: 1034352105932554569}
   playerName: HENK
   playerNameText: {fileID: 52857721514425194}
-  bullet: {fileID: 0}
-  initialTransform: {fileID: 0}
+  bullet: {fileID: 2115601773493835553, guid: befc0f284a1dea2469136fccd5c0aa9f, type: 3}
+  initialTransform: {fileID: 2340421995109205035}
+  rayDistance: 500
 --- !u!114 &6204750740672390154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -910,7 +943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 2115601773493835553, guid: befc0f284a1dea2469136fccd5c0aa9f, type: 3}
-  initialTransform: {fileID: 1034352105932554569}
+  initialTransform: {fileID: 2340421995109205035}
 --- !u!1 &8755917850217188370
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,8 +7,7 @@ public class PlayerNetwork : NetworkBehaviour
 {
     public GameObject playerComponents;
 
-    [SerializeField] Transform objectToSpawn;
-    [SerializeField] Transform spawnedObjectTransform;
+    public NetworkVariable<int> health = new NetworkVariable<int>();
 
     public float moveSpeed = 5.0f;
     public float lookSpeed = 2.0f;
@@ -19,8 +18,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] string playerName;
     [SerializeField] TextMeshProUGUI playerNameText;
 
-    [SerializeField] GameObject bullet;
-    [SerializeField] Transform initialTransform;
+    [SerializeField]  float rayDistance = 100f;
 
     public struct myCustomData : INetworkSerializable
         {
@@ -44,6 +42,7 @@ public class PlayerNetwork : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         playerNameText.text = playerName;
+        health.Value = 100;
 
         randomNumber.OnValueChanged += (myCustomData previousValue, myCustomData newValue) =>
         {
@@ -57,20 +56,13 @@ public class PlayerNetwork : NetworkBehaviour
 
         playerComponents.SetActive(true);
 
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            spawnedObjectTransform = Instantiate(objectToSpawn);
-            spawnedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
-           //TestServerRPC();
-            /*
-            randomNumber.Value = new myCustomData
-            {
-                _int = 10,
-                _bool = true,
-                message = "Hello",
-            };
-            */
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out RaycastHit hit))
+        //    {
+
+        //    }
+        //}
 
         // Get user input
         float horizontal = Input.GetAxis("Horizontal");
@@ -88,23 +80,27 @@ public class PlayerNetwork : NetworkBehaviour
         verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90.0f, 90.0f);
         cameraTransform.localEulerAngles = new Vector3(-verticalLookRotation, 0.0f, 0.0f);
         transform.localEulerAngles = new Vector3(0.0f, transform.localEulerAngles.y + mouseX * lookSpeed, 0.0f);
+    }
 
-        if (Input.GetKeyDown(KeyCode.Y))
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!IsServer) return;
+
+        if (other.GetComponent<Bullet>())
         {
-            spawnedObjectTransform.GetComponent<NetworkObject>().Despawn(true);
-            Destroy(spawnedObjectTransform.gameObject);
+            health.Value = health.Value - 10;
         }
     }
 
     [ServerRpc]
-    public void TestServerRPC()
+    public void RaycastServerRPC()
     {
-        Debug.Log(OwnerClientId +  " Server RPC");
+
     }
 
     [ClientRpc] //are to be runt from server to clients
-    public void ClientRPC()
+    public void RaycastClientRPC(ulong test)
     {
-        Debug.Log(OwnerClientId + " CLient RPC");
+
     }
 }
