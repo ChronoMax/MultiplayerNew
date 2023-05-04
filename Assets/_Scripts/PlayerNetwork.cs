@@ -19,6 +19,9 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] string playerName;
     [SerializeField] TextMeshProUGUI playerNameText;
 
+    [SerializeField] GameObject bullet;
+    [SerializeField] Transform initialTransform;
+
     public struct myCustomData : INetworkSerializable
         {
         public int _int;
