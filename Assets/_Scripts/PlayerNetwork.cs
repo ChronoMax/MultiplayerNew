@@ -2,24 +2,31 @@ using UnityEngine;
 using Unity.Netcode;
 using Unity.Collections;
 using TMPro;
+using UnityEngine.VFX;
 
 public class PlayerNetwork : NetworkBehaviour
 {
-    public GameObject playerComponents;
-
+    [Header("Health")]
     public NetworkVariable<int> health = new NetworkVariable<int>();
+    public TMP_Text healthText, timerText;
+    public bool hit = false;
 
-    public float moveSpeed = 5.0f;
-    public float lookSpeed = 2.0f;
+    [SerializeField] GameObject playerComponents;
 
+    private float moveSpeed = 5.0f;
+    private float lookSpeed = 2.0f;
     private float verticalLookRotation = 0.0f;
-    public Transform cameraTransform;
 
+    [SerializeField] Transform cameraTransform;
+
+    [Header("Playername")]
     [SerializeField] string playerName;
     [SerializeField] TextMeshProUGUI playerNameText;
 
-    public TMP_Text healthText;
+    [SerializeField] float timeBetweenFire;
+    float firetimer;
 
+    public ParticleSystem gunshot, blood;
 
     public override void OnNetworkSpawn()
     {
@@ -31,11 +38,12 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsOwner) return;
+        if (!IsOwner && !IsServer) return;
 
         playerComponents.SetActive(true);
 
-        healthText.text = health.Value.ToString();
+        healthText.text = "Health: " + health.Value.ToString();
+        timerText.text = "Reload: " + firetimer.ToString("f1");
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -48,7 +56,23 @@ public class PlayerNetwork : NetworkBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            ShootBulletServerRpc(10, cameraTransform.position, cameraTransform.forward);
+            if (firetimer <= 0)
+            {
+                GetComponentInChildren<AudioSource>().Play();
+                ShootBulletServerRpc(10, cameraTransform.position, cameraTransform.forward);
+                firetimer = timeBetweenFire;
+            }
+        }
+
+        if (hit)
+        {
+            BloodVFXClientRpc();
+            hit = false;
+        }
+
+        if (firetimer > 0)
+        {
+            firetimer -= Time.deltaTime;
         }
 
         if (health.Value == 0)
@@ -78,22 +102,30 @@ public class PlayerNetwork : NetworkBehaviour
     public void ShootBulletServerRpc(int damage, Vector3 pos, Vector3 dir)
     {
         print("Raycast send");
+        ShotClientRpc();
         if (Physics.Raycast(pos, dir, out RaycastHit hit) && hit.transform.TryGetComponent(out PlayerNetwork player))
         {
             print("Damage done");
             player.health.Value -= damage;
+            player.hit = true;
         }
+    }
+
+    [ClientRpc]
+    public void BloodVFXClientRpc()
+    {
+        blood.Play();
+    }
+
+    [ClientRpc]
+    public void ShotClientRpc()
+    {
+        gunshot.Play();
     }
 
     [ServerRpc]
     public void DespawnPlayerServerRPC()
     {
         this.gameObject.GetComponent<NetworkObject>().Despawn();
-    }
-
-    [ClientRpc] //are to be runt from server to clients
-    public void RaycastClientRPC()
-    {
-
     }
 }
