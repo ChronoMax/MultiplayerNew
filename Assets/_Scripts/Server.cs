@@ -26,9 +26,8 @@ public class Server : MonoBehaviour
         {
             QualitySettings.vSyncCount = 0;
             Application.runInBackground = true;
-            SceneManager.LoadScene("SampleScene");
             NetworkManager.Singleton.StartServer();
-            print("Hellp");
+            print("Help");
         }
         else
         {
