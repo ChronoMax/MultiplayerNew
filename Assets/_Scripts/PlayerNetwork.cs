@@ -18,39 +18,15 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] string playerName;
     [SerializeField] TextMeshProUGUI playerNameText;
 
-    [SerializeField]  float rayDistance = 100f;
-
     public TMP_Text healthText;
 
-    public struct myCustomData : INetworkSerializable
-        {
-        public int _int;
-        public bool _bool;
-        public FixedString128Bytes message;
-        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-        {
-            serializer.SerializeValue(ref _int);
-            serializer.SerializeValue(ref _bool);
-            serializer.SerializeValue(ref message);
-        }
-    }
-
-    private NetworkVariable<myCustomData> randomNumber = new NetworkVariable<myCustomData>(
-    new myCustomData {
-        _int = 63,
-        _bool = true,
-    }, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     public override void OnNetworkSpawn()
     {
+        Screen.lockCursor = true;
+
         playerNameText.text = playerName;
         health.Value = 100;
-        healthText.text = health.Value.ToString();
-
-        randomNumber.OnValueChanged += (myCustomData previousValue, myCustomData newValue) =>
-        {
-            Debug.Log(OwnerClientId + ": " + newValue._int + newValue._bool + newValue.message);
-        };
     }
 
     private void Update()
@@ -58,6 +34,27 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
 
         playerComponents.SetActive(true);
+
+        healthText.text = health.Value.ToString();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Screen.lockCursor = false;
+        }
+        else if (Input.GetMouseButtonDown(0) && Screen.lockCursor != true)
+        {
+            Screen.lockCursor = true;
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            ShootBulletServerRpc(10, cameraTransform.position, cameraTransform.forward);
+        }
+
+        if (health.Value == 0)
+        {
+            DespawnPlayerServerRPC();
+        }
 
         // Get user input
         float horizontal = Input.GetAxis("Horizontal");
@@ -77,18 +74,14 @@ public class PlayerNetwork : NetworkBehaviour
         transform.localEulerAngles = new Vector3(0.0f, transform.localEulerAngles.y + mouseX * lookSpeed, 0.0f);
     }
 
-    private void OnTriggerEnter(Collider other)
+    [ServerRpc]
+    public void ShootBulletServerRpc(int damage, Vector3 pos, Vector3 dir)
     {
-        if (!IsServer) return;
-
-        if (other.GetComponent<Bullet>() && health.Value != 0)
+        print("Raycast send");
+        if (Physics.Raycast(pos, dir, out RaycastHit hit) && hit.transform.TryGetComponent(out PlayerNetwork player))
         {
-            health.Value = health.Value - 10;
-            healthText.text = health.Value.ToString();
-        }
-        else if (health.Value == 0)
-        {
-            DespawnPlayerServerRPC();
+            print("Damage done");
+            player.health.Value -= damage;
         }
     }
 

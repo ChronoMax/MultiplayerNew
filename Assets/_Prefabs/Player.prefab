@@ -809,7 +809,6 @@ GameObject:
   - component: {fileID: 6204750740672390154}
   - component: {fileID: 7712890491899858410}
   - component: {fileID: 8699528367596484894}
-  - component: {fileID: 3049648475090686509}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -872,7 +871,6 @@ MonoBehaviour:
   cameraTransform: {fileID: 1034352105932554569}
   playerName: HENK
   playerNameText: {fileID: 52857721514425194}
-  rayDistance: 500
   healthText: {fileID: 4427382159077428609}
 --- !u!114 &6204750740672390154
 MonoBehaviour:
@@ -928,20 +926,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3049648475090686509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8731905837429408159}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1d0c56e384e89b4a8de829a899ed197, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet: {fileID: 2115601773493835553, guid: befc0f284a1dea2469136fccd5c0aa9f, type: 3}
-  initialTransform: {fileID: 2340421995109205035}
 --- !u!1 &8755917850217188370
 GameObject:
   m_ObjectHideFlags: 0
