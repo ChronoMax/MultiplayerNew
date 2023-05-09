@@ -30,7 +30,6 @@ Transform:
   m_Children:
   - {fileID: 1034352105932554569}
   - {fileID: 8915777895999220813}
-  - {fileID: 5904023328063510186}
   m_Father: {fileID: 8731905837429408158}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -58,12 +57,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 307779503442445448}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.53, z: 0.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1472028452927231916}
+  m_Father: {fileID: 8731905837429408158}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &5816608074021287768
@@ -86,7 +85,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 4.8341293
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -195,7 +194,7 @@ RectTransform:
   m_Children:
   - {fileID: 1917455461468271463}
   m_Father: {fileID: 8731905837429408158}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1064,6 +1063,7 @@ Transform:
   m_Children:
   - {fileID: 1472028452927231916}
   - {fileID: 8731905835661048985}
+  - {fileID: 5904023328063510186}
   - {fileID: 8990454344960625537}
   - {fileID: 3977957191703586760}
   - {fileID: 8759014729935813786}
@@ -1102,11 +1102,13 @@ MonoBehaviour:
     m_InternalValue: 0
   healthText: {fileID: 4427382159077428609}
   timerText: {fileID: 4959241525515087831}
+  hit: 0
   playerComponents: {fileID: 86665254397631672}
   cameraTransform: {fileID: 1034352105932554569}
   playerName: HENK
   playerNameText: {fileID: 52857721514425194}
   timeBetweenFire: 2
+  gunAudio: {fileID: 5816608074021287768}
   gunshot: {fileID: 4188116949909645665}
   blood: {fileID: 3977957191685126990}
 --- !u!114 &6204750740672390154
@@ -1283,7 +1285,7 @@ Transform:
   - {fileID: 8759747137340939596}
   - {fileID: 4188116949890248893}
   m_Father: {fileID: 8731905837429408158}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8788599190620059780
 MeshFilter:
@@ -1553,7 +1555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499110, guid: 78e1c8c5b281b8b439229473779ac9aa, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 499110, guid: 78e1c8c5b281b8b439229473779ac9aa, type: 3}
       propertyPath: m_LocalPosition.x

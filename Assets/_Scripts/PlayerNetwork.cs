@@ -26,6 +26,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] float timeBetweenFire;
     float firetimer;
 
+    public AudioSource gunAudio;
     public ParticleSystem gunshot, blood;
 
     public override void OnNetworkSpawn()
@@ -58,7 +59,6 @@ public class PlayerNetwork : NetworkBehaviour
         {
             if (firetimer <= 0)
             {
-                GetComponentInChildren<AudioSource>().Play();
                 ShootBulletServerRpc(10, cameraTransform.position, cameraTransform.forward);
                 firetimer = timeBetweenFire;
             }
@@ -121,6 +121,7 @@ public class PlayerNetwork : NetworkBehaviour
     public void ShotClientRpc()
     {
         gunshot.Play();
+        gunAudio.Play();
     }
 
     [ServerRpc]
