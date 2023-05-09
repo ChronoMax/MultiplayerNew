@@ -19,12 +19,20 @@ public class Bullet : NetworkBehaviour
 
     private void Start()
     {
+        if (!IsServer)
+
         StartCoroutine(Despawn());
     }
 
     private IEnumerator Despawn()
     {
         yield return new WaitForSeconds(despawnAfter);
-        NetworkObject.Despawn(this.gameObject);
+        DespawnBulletServerRpc();
+    }
+
+    [ServerRpc]
+    void DespawnBulletServerRpc()
+    {
+        this.gameObject.GetComponent<NetworkObject>().Despawn();
     }
 }

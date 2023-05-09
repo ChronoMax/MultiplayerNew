@@ -20,6 +20,8 @@ public class PlayerNetwork : NetworkBehaviour
 
     [SerializeField]  float rayDistance = 100f;
 
+    public TMP_Text healthText;
+
     public struct myCustomData : INetworkSerializable
         {
         public int _int;
@@ -43,6 +45,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         playerNameText.text = playerName;
         health.Value = 100;
+        healthText.text = health.Value.ToString();
 
         randomNumber.OnValueChanged += (myCustomData previousValue, myCustomData newValue) =>
         {
@@ -55,14 +58,6 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return;
 
         playerComponents.SetActive(true);
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out RaycastHit hit))
-        //    {
-
-        //    }
-        //}
 
         // Get user input
         float horizontal = Input.GetAxis("Horizontal");
@@ -86,20 +81,25 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        if (other.GetComponent<Bullet>())
+        if (other.GetComponent<Bullet>() && health.Value != 0)
         {
             health.Value = health.Value - 10;
+            healthText.text = health.Value.ToString();
+        }
+        else if (health.Value == 0)
+        {
+            DespawnPlayerServerRPC();
         }
     }
 
     [ServerRpc]
-    public void RaycastServerRPC()
+    public void DespawnPlayerServerRPC()
     {
-
+        this.gameObject.GetComponent<NetworkObject>().Despawn();
     }
 
     [ClientRpc] //are to be runt from server to clients
-    public void RaycastClientRPC(ulong test)
+    public void RaycastClientRPC()
     {
 
     }
