@@ -3,6 +3,7 @@ using Unity.Netcode;
 using Unity.Collections;
 using TMPro;
 using UnityEngine.VFX;
+using UnityEngine.SceneManagement;
 
 public class PlayerNetwork : NetworkBehaviour
 {
@@ -42,7 +43,7 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsOwner && !IsServer) return;
+        if (!IsOwner) return;
 
         playerComponents.SetActive(true);
 
@@ -91,7 +92,9 @@ public class PlayerNetwork : NetworkBehaviour
 
         if (health.Value == 0)
         {
+            Screen.lockCursor = false;
             DespawnPlayerServerRPC();
+            NetworkManager.Singleton.Shutdown();
         }
 
         // Get user input
@@ -144,6 +147,7 @@ public class PlayerNetwork : NetworkBehaviour
     [ServerRpc]
     public void DespawnPlayerServerRPC()
     {
+        Debug.Log("Despawning player:" + OwnerClientId);
         this.gameObject.GetComponent<NetworkObject>().Despawn();
     }
 }
