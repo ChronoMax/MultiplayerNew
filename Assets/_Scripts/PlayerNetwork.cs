@@ -43,6 +43,15 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void Update()
     {
+        if (!IsOwner && IsServer)
+        {
+            if (hit)
+            {
+                BloodVFXClientRpc();
+                hit = false;
+            }
+        }
+
         if (!IsOwner) return;
 
         playerComponents.SetActive(true);
@@ -77,12 +86,6 @@ public class PlayerNetwork : NetworkBehaviour
                 ShootBulletServerRpc(10, cameraTransform.position, cameraTransform.forward);
                 firetimer = timeBetweenFire;
             }
-        }
-
-        if (hit)
-        {
-            BloodVFXClientRpc();
-            hit = false;
         }
 
         if (firetimer > 0)
