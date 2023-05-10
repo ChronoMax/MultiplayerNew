@@ -31,8 +31,13 @@ public class PlayerNetwork : NetworkBehaviour
     public AudioSource gunAudio;
     public ParticleSystem gunshot, blood;
 
+    GameObject deathmenu;
+
     public override void OnNetworkSpawn()
     {
+        deathmenu = GameObject.Find("PlayerMenu");
+        deathmenu.SetActive(false);
+
         Screen.lockCursor = true;
 
         playerNameText.text = playerName;
@@ -96,6 +101,8 @@ public class PlayerNetwork : NetworkBehaviour
         if (health.Value == 0)
         {
             Screen.lockCursor = false;
+            deathmenu.SetActive(true);
+
             DespawnPlayerServerRPC();
             NetworkManager.Singleton.Shutdown();
         }
