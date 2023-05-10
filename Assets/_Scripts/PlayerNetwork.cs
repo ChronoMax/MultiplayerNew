@@ -11,7 +11,7 @@ public class PlayerNetwork : NetworkBehaviour
     public TMP_Text healthText, timerText;
     public bool hit = false;
 
-    [SerializeField] GameObject playerComponents;
+    [SerializeField] GameObject playerComponents, gameplayUI, menuUI;
 
     private float moveSpeed = 5.0f;
     private float lookSpeed = 2.0f;
@@ -26,6 +26,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] float timeBetweenFire;
     float firetimer;
 
+    [Header("VFX/SFX")]
     public AudioSource gunAudio;
     public ParticleSystem gunshot, blood;
 
@@ -35,6 +36,8 @@ public class PlayerNetwork : NetworkBehaviour
 
         playerNameText.text = playerName;
         health.Value = 100;
+
+        menuUI.SetActive(false);
     }
 
     private void Update()
@@ -49,13 +52,24 @@ public class PlayerNetwork : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Screen.lockCursor = false;
+
+            if (gameplayUI.activeInHierarchy)
+            {
+                gameplayUI.SetActive(false);
+                menuUI.SetActive(true);
+            }
+            else
+            {
+                gameplayUI.SetActive(true);
+                menuUI.SetActive(false);
+            }
         }
-        else if (Input.GetMouseButtonDown(0) && Screen.lockCursor != true)
+        else if (Input.GetMouseButtonDown(0) && Screen.lockCursor != true && !menuUI.activeInHierarchy)
         {
             Screen.lockCursor = true;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !menuUI.activeInHierarchy)
         {
             if (firetimer <= 0)
             {
@@ -86,16 +100,19 @@ public class PlayerNetwork : NetworkBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        // Move the player
-        Vector3 movement = transform.forward * vertical + transform.right * horizontal;
-        movement.y = 0.0f;
-        transform.position += movement.normalized * moveSpeed * Time.deltaTime;
+        if (!menuUI.activeInHierarchy)
+        {
+            // Move the player
+            Vector3 movement = transform.forward * vertical + transform.right * horizontal;
+            movement.y = 0.0f;
+            transform.position += movement.normalized * moveSpeed * Time.deltaTime;
 
-        // Rotate the camera
-        verticalLookRotation += mouseY * lookSpeed;
-        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90.0f, 90.0f);
-        cameraTransform.localEulerAngles = new Vector3(-verticalLookRotation, 0.0f, 0.0f);
-        transform.localEulerAngles = new Vector3(0.0f, transform.localEulerAngles.y + mouseX * lookSpeed, 0.0f);
+            // Rotate the camera
+            verticalLookRotation += mouseY * lookSpeed;
+            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90.0f, 90.0f);
+            cameraTransform.localEulerAngles = new Vector3(-verticalLookRotation, 0.0f, 0.0f);
+            transform.localEulerAngles = new Vector3(0.0f, transform.localEulerAngles.y + mouseX * lookSpeed, 0.0f);
+        }
     }
 
     [ServerRpc]
