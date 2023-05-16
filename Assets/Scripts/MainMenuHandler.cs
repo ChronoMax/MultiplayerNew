@@ -3,11 +3,12 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
+using Unity.Netcode;
 
 public class MainMenuHandler : MonoBehaviour
 {
     [SerializeField]
-    TMP_Text playerText;
+    TMP_Text playerText, debugText;
     [SerializeField]
     GameObject login_registerCanvas;
     [SerializeField]
@@ -16,6 +17,7 @@ public class MainMenuHandler : MonoBehaviour
     TMP_InputField username, password;
     [SerializeField]
     GameObject playCanvas;
+
 
     DatabaseHandler databaseHandler;
     public bool requestCompleted = false;
@@ -27,15 +29,16 @@ public class MainMenuHandler : MonoBehaviour
      */
     public void Start()
     {
-        databaseHandler = GameObject.Find("Canvas").GetComponent<DatabaseHandler>();
-        playCanvas.SetActive(false);
-        playerText.text = "Player: " + DBManager.username;
+        databaseHandler = GameObject.Find("MainMenuCanvas").GetComponent<DatabaseHandler>();
+        //playCanvas.SetActive(false);
+        playerText.text = "Welcome: " + DBManager.username;
     }
 
     //Play button behavior.
     public void PlayButtonPressed()
     {
-        SceneManager.LoadScene("");
+        SceneManager.LoadScene("ww2_map");
+        NetworkManager.Singleton.StartClient();
     }
 
     //loginbutton behavior with tag 'login'
@@ -65,14 +68,14 @@ public class MainMenuHandler : MonoBehaviour
 
             yield return new WaitForSeconds(1);
 
-            if (requestCompleted && login_or_register != "register")
+            if (requestCompleted && login_or_register != "register" && databaseHandler.name != null)
             {
-                playerText.text = "Player: " + DBManager.username;
+                playerText.text = "Welcome: " + DBManager.username;
                 playCanvas.SetActive(true);
                 login_registerCanvas.SetActive(false);
             }
             else
-            {
+            { 
                 requestCompleted = false;
                 break;
             }

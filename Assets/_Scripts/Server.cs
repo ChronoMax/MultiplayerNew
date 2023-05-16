@@ -26,8 +26,8 @@ public class Server : MonoBehaviour
         {
             QualitySettings.vSyncCount = 0;
             Application.runInBackground = true;
+            SceneManager.LoadScene("ww2_map");
             NetworkManager.Singleton.StartServer();
-            print("Help");
         }
         else
         {

@@ -10,7 +10,7 @@ public class PlayerNetwork : NetworkBehaviour
     [Header("Health")]
     public NetworkVariable<int> health = new NetworkVariable<int>();
     public TMP_Text healthText, timerText;
-    public bool hit = false;
+    public bool hit, dead = false;
 
     [SerializeField] GameObject playerComponents, gameplayUI, menuUI;
 
@@ -31,19 +31,19 @@ public class PlayerNetwork : NetworkBehaviour
     public AudioSource gunAudio;
     public ParticleSystem gunshot, blood;
 
-    GameObject deathmenu;
+    public GameObject maincam;
 
     public override void OnNetworkSpawn()
     {
-        deathmenu = GameObject.Find("PlayerMenu");
-        deathmenu.SetActive(false);
+        if (IsOwner)
+        {
+            playerNameText.text = playerName;
+            health.Value = 100;
+            maincam.SetActive(false);
+            playerComponents.SetActive(true);
 
-        Screen.lockCursor = true;
-
-        playerNameText.text = playerName;
-        health.Value = 100;
-
-        menuUI.SetActive(false);
+            Screen.lockCursor = true;
+        }
     }
 
     private void Update()
@@ -55,11 +55,22 @@ public class PlayerNetwork : NetworkBehaviour
                 BloodVFXClientRpc();
                 hit = false;
             }
+
+            if (dead)
+            {
+                despawnclientrpc();
+                dead = false;
+            }
+
         }
 
         if (!IsOwner) return;
 
-        playerComponents.SetActive(true);
+        //if (health.Value == 0)
+        //{
+        //    maincam.SetActive(true);
+        //    Screen.lockCursor = false;
+        //}
 
         healthText.text = "Health: " + health.Value.ToString();
         timerText.text = "Reload: " + firetimer.ToString("f1");
@@ -98,15 +109,6 @@ public class PlayerNetwork : NetworkBehaviour
             firetimer -= Time.deltaTime;
         }
 
-        if (health.Value == 0)
-        {
-            Screen.lockCursor = false;
-            deathmenu.SetActive(true);
-
-            DespawnPlayerServerRPC();
-            NetworkManager.Singleton.Shutdown();
-        }
-
         // Get user input
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -128,6 +130,15 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
 
+    public void Respawn()
+    {
+        maincam.SetActive(false);
+        gameObject.transform.position = new Vector3(0, 0, 0);
+        playerComponents.SetActive(true);
+        respawnServerRpc(100);
+        //RespawnClientRpc();
+    }
+
     [ServerRpc]
     public void ShootBulletServerRpc(int damage, Vector3 pos, Vector3 dir)
     {
@@ -138,6 +149,11 @@ public class PlayerNetwork : NetworkBehaviour
             print("Damage done");
             player.health.Value -= damage;
             player.hit = true;
+
+            if (player.hit && player.health.Value == 0)
+            {
+                player.dead = true;
+            }
         }
     }
 
@@ -154,10 +170,29 @@ public class PlayerNetwork : NetworkBehaviour
         gunAudio.Play();
     }
 
-    [ServerRpc]
-    public void DespawnPlayerServerRPC()
+    [ClientRpc]
+    public void RespawnClientRpc()
     {
-        Debug.Log("Despawning player:" + OwnerClientId);
-        this.gameObject.GetComponent<NetworkObject>().Despawn();
+        gameObject.SetActive(true);
+    }
+
+    [ServerRpc]
+    public void respawnServerRpc(int value)
+    {
+        RespawnClientRpc();
+        Debug.Log("Setting health to 100");
+        PlayerNetwork player = gameObject.GetComponent<PlayerNetwork>();
+        player.health.Value += value;
+    }
+
+    [ClientRpc]
+    public void despawnclientrpc()
+    {
+        if (IsOwner)
+        {
+            maincam.SetActive(true);
+            Screen.lockCursor = false;
+        }
+        gameObject.SetActive(false);
     }
 }

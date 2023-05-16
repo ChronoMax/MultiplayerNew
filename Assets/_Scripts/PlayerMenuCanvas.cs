@@ -6,22 +6,23 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMenuCanvas : MonoBehaviour
 {
+    public GameObject player, cam;
+
     public void DisconnectButtonPressed()
     {
         Debug.Log("Disconnect Button pressed!");
-        GetComponentInParent<PlayerNetwork>().DespawnPlayerServerRPC();
-        NetworkManager.Singleton.Shutdown(true);
-        SceneManager.LoadScene("MainMenuTest");
+        NetworkManager.Singleton.Shutdown();
+        SceneManager.LoadScene("MainMenu_Pr");
     }
 
     public void DisconnectDeath()
     {
-        NetworkManager.Singleton.Shutdown(true);
-        SceneManager.LoadScene("MainMenuTest");
+        SceneManager.LoadScene("MainMenu_Pr");
     }
 
     public void RespawnButtonpressed()
     {
-        NetworkManager.Singleton.StartClient();
+        //NetworkManager.Singleton.StartClient();
+        player.GetComponent<PlayerNetwork>().Respawn();
     }
 }
