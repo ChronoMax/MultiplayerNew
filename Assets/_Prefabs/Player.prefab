@@ -309,7 +309,7 @@ GameObject:
   - component: {fileID: 7581239139308262576}
   - component: {fileID: 6365944156851704026}
   m_Layer: 5
-  m_Name: PlayerNameCancas
+  m_Name: PlayerNameCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1024,14 +1024,13 @@ MonoBehaviour:
   playerComponents: {fileID: 86665254397631672}
   gameplayUI: {fileID: 4757796776206728287}
   menuUI: {fileID: 3358930701087388015}
+  mainCam: {fileID: 1669547037418603880}
   cameraTransform: {fileID: 5165854185516725631}
-  playerName: HENK
   playerNameText: {fileID: 5283220513839714140}
   timeBetweenFire: 2
-  gunAudio: {fileID: 5816608074021287768}
   gunshot: {fileID: 4188116949909645665}
   blood: {fileID: 3977957191685126990}
-  maincam: {fileID: 1669547037418603880}
+  shotshound: {fileID: 5816608074021287768}
 --- !u!114 &2301831085470208060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16318,7 +16317,7 @@ GameObject:
   - component: {fileID: 3736077194313167233}
   - component: {fileID: 5283220513839714140}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: PlayerNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
